@@ -1,0 +1,34 @@
+<<,START,CSV,VER00,>>
+EntityType,Name,Attribute,Value,Unit
+<<Control>>,<<Solution>>,Iteration,1,
+<<Control>>,<<Solution>>,DataIteration,0,
+ACU,ACU01,CoolantFlowRate,0.00145,m^3/s
+ACU,ACU01,CoolantMaximumFlowRate,0.00145,m^3/s
+ACU,ACU01,CoolantTemperatureIn,12,C
+ACU,ACU01,CoolantTemperatureOut,12,C
+ACU,ACU01,FanSpeed,100,%
+Controller,Air Temperature Controller,DeadBand,1,C
+Controller,Air Temperature Controller,Gain,0,
+Controller,Air Temperature Controller,GainScalingFactor,1,
+Controller,Air Temperature Controller,InputSignal,20,C
+Controller,Air Temperature Controller,Output,14.3514,%
+Controller,Air Temperature Controller,SetPoint,18,C
+ITEquipment,D5:Capacity Planning0,HeatPowerFactor,100,%
+ITEquipment,D5:Capacity Planning1,HeatPowerFactor,100,%
+ITEquipment,D5:Capacity Planning2,HeatPowerFactor,100,%
+ITEquipment,D5:Capacity Planning3,HeatPowerFactor,100,%
+ITEquipment,D5:Capacity Planning4,HeatPowerFactor,100,%
+Sensor,Average Return Air,Value,20,C
+Sensor,Average Supply Air,Value,18.0115,C
+Sensor,back1,Value,23.6477,C
+Sensor,back2,Value,23.7157,C
+Sensor,back3,Value,23.7413,C
+Sensor,back4,Value,23.7149,C
+Sensor,back5,Value,23.1904,C
+Sensor,cracin,Value,20,C
+Sensor,cracout,Value,19.7859,C
+Sensor,front1,Value,20,C
+Sensor,front2,Value,20,C
+Sensor,front3,Value,20,C
+Sensor,front4,Value,20,C
+Sensor,front5,Value,20,C

@@ -1,0 +1,21 @@
+{
+  "name": "CRAC",
+  "params": {
+    "state": {
+      "inlet_temp": {
+        "low": 0,
+        "high": 30,
+        "now": 26
+      }
+    },
+    "control": {
+      "set_temp": {
+        "low": 0,
+        "high": 30,
+        "now": 26
+      }
+    },
+    "control_algorithm": "core.CRAC.do_noting",
+    "cluster_update_algorithm": "core.CRAC.do_noting"
+  }
+}
