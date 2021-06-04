@@ -1,4 +1,4 @@
-from config import *
+from core.config import *
 
 
 class Job(object):

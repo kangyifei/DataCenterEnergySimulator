@@ -6,12 +6,12 @@ from core.simulation import Simulation
 
 
 class Episode(object):
-    def __init__(self, machine_configs, task_configs, algorithm, event_file):
+    def __init__(self, machine_configs, task_configs, algorithm, event_file,is_DAG):
         self.env = simpy.Environment()
         cluster = Cluster()
         cluster.add_machines(machine_configs)
 
-        task_broker = Broker(self.env, task_configs)
+        task_broker = Broker(self.env, task_configs,is_DAG)
 
         scheduler = Scheduler(self.env, algorithm)
         self.simulation = Simulation(self.env, cluster, task_broker, scheduler, event_file)

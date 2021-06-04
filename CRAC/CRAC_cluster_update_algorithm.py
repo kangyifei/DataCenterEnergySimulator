@@ -1,4 +1,4 @@
-from algorithm import Algorithm
+from core.algorithm import Algorithm
 from keras.models import load_model
 import numpy as np
 

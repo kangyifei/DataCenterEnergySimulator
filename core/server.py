@@ -1,10 +1,25 @@
 from enum import Enum
+from functools import lru_cache
 
 
 class MachineDoor(Enum):
     TASK_IN = 0
     TASK_OUT = 1
     NULL = 3
+
+
+@lru_cache(10)
+def calculate_power(cpu, mem):
+    if cpu < 0.0001:
+        cpu = 0
+    elif cpu > 0.9999:
+        cpu = 1
+    if mem < 0.0001:
+        mem = 0
+    elif mem > 0.9999:
+        mem = 1
+    power = 1200 * (cpu ** 3) + 100 * mem + 300
+    return power
 
 
 class Server(object):
@@ -21,25 +36,35 @@ class Server(object):
         self.task_instances = []
         self.machine_door = MachineDoor.NULL
         self.inlet_temp = 20
+        self.last_power_cal_time = 0
+        self.energy_consume = 0
+        self.shutdowned = False
 
     def run_task_instance(self, task_instance):
+        if self.has_running_task_instances:
+            self.energy_consume += (self.power * (self.cluster.simulation.env.now - self.last_power_cal_time))
+            self.last_power_cal_time = self.cluster.simulation.env.now
         self.cpu -= task_instance.cpu
         self.memory -= task_instance.memory
         self.disk -= task_instance.disk
         self.task_instances.append(task_instance)
-        # self.inlet_temp = self.cal_inlet_temp(self.id, self.cluster)
         self.machine_door = MachineDoor.TASK_IN
 
     def stop_task_instance(self, task_instance):
+        if self.cluster.simulation.env.now != self.last_power_cal_time:
+            self.energy_consume += (self.power * (self.cluster.simulation.env.now - self.last_power_cal_time))
+            self.last_power_cal_time = self.cluster.simulation.env.now
         self.cpu += task_instance.cpu
         self.memory += task_instance.memory
         self.disk += task_instance.disk
         self.machine_door = MachineDoor.TASK_OUT
-        # print("machine: one task finished")
-        # self.cluster.simulation.job_event.succeed(value="finished")
         self.cluster.cluster_task_finished_num += 1
-        # self.cluster.simulation.job_event = self.cluster.simulation.env.event()
-        # print("a task finished")
+
+    def shutdown(self):
+        if not self.shutdowned:
+            self.shutdowned = True
+            self.energy_consume += (self.power * (self.cluster.simulation.env.now - self.last_power_cal_time))
+            self.last_power_cal_time = self.cluster.simulation.env.now
 
     @property
     def running_task_instances(self):
@@ -50,26 +75,19 @@ class Server(object):
         return ls
 
     @property
+    def has_running_task_instances(self):
+        for task_instance in self.task_instances:
+            if task_instance.started and not task_instance.finished:
+                return True
+        return False
+
+    @property
     def finished_task_instances(self):
         ls = []
         # for task_instance in self.task_instances:
         #     if task_instance.finished:
         #         ls.append(task_instance)
         return ls
-
-    def calculate_power(self):
-        cpu = 1 - (self.cpu / self.cpu_capacity)
-        mem = 1 - (self.memory / self.memory_capacity)
-        if cpu < 0.0001:
-            cpu = 0
-        elif cpu > 0.9999:
-            cpu = 1
-        if mem < 0.0001:
-            mem = 0
-        elif mem > 0.9999:
-            mem = 1
-        power = 100 * (cpu ** 3) + 50* mem + 150
-        return power
 
     def attach(self, cluster):
         self.cluster = cluster
@@ -103,12 +121,12 @@ class Server(object):
             'disk_usage_percent': 1 - (self.disk / self.disk_capacity),
             'running_task_instances': len(self.running_task_instances),
             'finished_task_instances': len(self.finished_task_instances),
-            'power': self.calculate_power()
+            'power': calculate_power(1 - (self.cpu / self.cpu_capacity), 1 - (self.memory / self.memory_capacity))
         }
 
     @property
     def power(self):
-        return self.calculate_power()
+        return calculate_power(1 - (self.cpu / self.cpu_capacity), 1 - (self.memory / self.memory_capacity))
 
     def __eq__(self, other):
         return isinstance(other, Server) and other.id == self.id

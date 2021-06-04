@@ -1,4 +1,4 @@
-from algorithm import Algorithm
+from core.algorithm import Algorithm
 
 
 class ControlAlgorithm(Algorithm):

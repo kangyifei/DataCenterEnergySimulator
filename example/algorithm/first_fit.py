@@ -1,5 +1,5 @@
 from core.algorithm import Algorithm
-from typing import Optional,Any
+from typing import Any
 
 class FirstFitTaskalgorithm(Algorithm):
     def __call__(self, cluster, clock,cooling_equipment=None)->(Any,Any,Any):
@@ -17,5 +17,4 @@ class FirstFitTaskalgorithm(Algorithm):
                     break
             if found:
                 break
-
         return candidate_machine, candidate_task,None

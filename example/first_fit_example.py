@@ -1,6 +1,6 @@
 import time
 import numpy as np
-from config import MachineConfig
+from core.config import MachineConfig
 from example.algorithm.first_fit import FirstFitTaskalgorithm
 from example.utils.csv_reader import CSVReader
 from example.utils.episode import Episode
@@ -15,7 +15,7 @@ csv_reader = CSVReader(jobs_csv)
 jobs_configs=csv_reader.generate(0,1)
 print("-----------------------------------------first_fit------------------------------------------")
 algorithm = FirstFitTaskalgorithm()
-episode = Episode(machine_configs, jobs_configs, algorithm, None)
+episode = Episode(machine_configs, jobs_configs, algorithm, None,is_DAG=False)
 tic = time.time()
 episode.run()
 print("simulation virtual time(s): ",episode.env.now)

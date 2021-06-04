@@ -1,4 +1,4 @@
-from config import CoolingEquipmentConfig
+from core.config import CoolingEquipmentConfig
 import importlib
 import importlib.util
 

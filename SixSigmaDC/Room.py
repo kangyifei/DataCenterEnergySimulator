@@ -1,5 +1,5 @@
 from SixSigmaDCSDK.engine import Engine
-from cooling_equipment import CoolingEquipment
+from core.cooling_equipment import CoolingEquipment
 import os
 import time
 import pyautogui

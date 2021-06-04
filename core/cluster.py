@@ -1,4 +1,4 @@
-from server import Server
+from core.server import Server
 
 
 class Cluster(object):
@@ -79,14 +79,17 @@ class Cluster(object):
             self.machines.append(machine)
             machine.attach(self)
 
-    def add_job(self, job):
+    def add_job(self, job,is_DAG):
         self.jobs.append(job)
         job.attach(self)
         for task in job.tasks:
             self.unfinished_tasks_map[hash(task)]=task
-            if task.ready:
-                self.ready_unfinished_tasks_map[hash(task)]=task
-
+            if is_DAG:
+                if task.ready:
+                    self.ready_unfinished_tasks_map[hash(task)]=task
+    def shutdown(self):
+        for machine in self.machines:
+            machine.shutdown()
     @property
     def cpu(self):
         return sum([machine.cpu for machine in self.machines])

@@ -1,4 +1,4 @@
-from task_status_monitor import TaskStatusMonitor
+from core.task_status_monitor import TaskStatusMonitor
 
 
 class Simulation(object):
@@ -32,5 +32,8 @@ class Simulation(object):
 
     @property
     def finished(self):
-        return self.task_broker.destroyed \
-               and len(self.cluster.unfinished_jobs) == 0
+        if self.task_broker.destroyed and len(self.cluster.unfinished_jobs) == 0:
+            self.cluster.shutdown()
+            return True
+        else:
+            return False

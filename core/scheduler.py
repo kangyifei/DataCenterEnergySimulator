@@ -20,13 +20,14 @@ class Scheduler(object):
 
     def job_added_schedule(self):
         while True:
-            machine, task, cooling_paramslist = self.scheduler_algorithm(self.cluster,
+            machine,task, cooling_paramslist = self.scheduler_algorithm(self.cluster,
                                                                          self.env.now,
                                                                          self.cooling_equipment)
+
             # print("task len:", len(self.cluster.tasks_which_has_waiting_instance))
-            if machine is None or task is None:
-                # print("waiting task all gone")
-                break
+            if machine is None:
+                    if task is None:
+                        break
             else:
                 self.task_scheduled_num += 1
                 task.start_task_instance(machine)
@@ -38,8 +39,8 @@ class Scheduler(object):
                 self.cooling_equipment.update_cluster()
 
     def job_finished_schedule(self):
-        self. task_finished_num += 1
-        machine, task, cooling_paramslist = self.scheduler_algorithm(self.cluster,
+        self.task_finished_num += 1
+        machine,task, cooling_paramslist = self.scheduler_algorithm(self.cluster,
                                                                      self.env.now,
                                                                      self.cooling_equipment)
         if self.cooling_equipment is not None:
@@ -91,13 +92,6 @@ class Scheduler(object):
     #     print("sched num: ", self.task_scheduled_num)
     #     print("finished num: ", self.task_finished_num)
     def run(self):
-        while not self.simulation.finished:
-            yield self.env.timeout(1)
-            self.job_added_schedule()
-        self.destroyed = True
-        print("sched num: ", self.task_scheduled_num)
-        print("finished num: ", self.task_finished_num)
-    def run3(self):
         while not self.simulation.finished:
             yield self.env.timeout(1)
             self.job_added_schedule()
