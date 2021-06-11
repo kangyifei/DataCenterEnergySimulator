@@ -87,6 +87,8 @@ class Cluster(object):
             if is_DAG:
                 if task.ready:
                     self.ready_unfinished_tasks_map[hash(task)]=task
+        self.simulation.job_event.succeed(value="add")
+        self.simulation.job_event = self.simulation.env.event()
     def shutdown(self):
         for machine in self.machines:
             machine.shutdown()

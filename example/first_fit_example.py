@@ -18,6 +18,7 @@ algorithm = FirstFitTaskalgorithm()
 episode = Episode(machine_configs, jobs_configs, algorithm, None,is_DAG=False)
 tic = time.time()
 episode.run()
+print("cluster finished task num: ",episode.simulation.cluster.cluster_task_finished_num)
 print("simulation virtual time(s): ",episode.env.now)
 print("running time(s): ",time.time() - tic)
 total_energy_consume=0

@@ -59,6 +59,8 @@ class Server(object):
         self.disk += task_instance.disk
         self.machine_door = MachineDoor.TASK_OUT
         self.cluster.cluster_task_finished_num += 1
+        self.cluster.simulation.job_event.succeed(value="finished")
+        self.cluster.simulation.job_event = self.cluster.simulation.env.event()
 
     def shutdown(self):
         if not self.shutdowned:
@@ -69,9 +71,9 @@ class Server(object):
     @property
     def running_task_instances(self):
         ls = []
-        # for task_instance in self.task_instances:
-        #     if task_instance.started and not task_instance.finished:
-        #         ls.append(task_instance)
+        for task_instance in self.task_instances:
+            if task_instance.started and not task_instance.finished:
+                ls.append(task_instance)
         return ls
 
     @property
