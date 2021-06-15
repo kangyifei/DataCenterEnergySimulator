@@ -12,7 +12,7 @@ machines_number = 5
 jobs_csv = './jobs.csv'
 machine_configs = [MachineConfig(64, 1, 1) for i in range(machines_number)]
 csv_reader = CSVReader(jobs_csv)
-jobs_configs=csv_reader.generate(0,1)
+jobs_configs=csv_reader.generate(0,20)
 print("-----------------------------------------first_fit------------------------------------------")
 algorithm = FirstFitTaskalgorithm()
 episode = Episode(machine_configs, jobs_configs, algorithm, None,is_DAG=False)

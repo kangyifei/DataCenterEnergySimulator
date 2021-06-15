@@ -1,7 +1,7 @@
 import time
 import numpy as np
 from core.config import MachineConfig, CoolingEquipmentConfig
-from core.cooling_equipment import CoolingEquipment
+from SixSigmaDC.Room import Room
 from example.algorithm.first_fit_with_CRAC import FirstFitTaskWithCRACalgorithm
 from example.utils.csv_reader import CSVReader
 from example.utils.episode import Episode
@@ -9,12 +9,11 @@ from example.utils.episode import Episode
 np.random.seed(41)
 
 # ************************ Parameters Setting Start ************************
-machines_number = 15
+machines_number = 50
 jobs_csv = './jobs.csv'
-cooling_eq_config_json = "../CRAC/CRAC.json"
+sixSigma_base_path= "./BigServer/1-/SolverExchange"
 machine_configs = [MachineConfig(64, 1, 1) for i in range(machines_number)]
-cooling_eq_confg = CoolingEquipmentConfig(cooling_eq_config_json)
-cooling_eq=CoolingEquipment(cooling_eq_confg)
+cooling_eq= Room(sixSigma_base_path)
 csv_reader = CSVReader(jobs_csv)
 jobs_configs = csv_reader.generate(0, 20)
 print("-----------------------------------------first_fit------------------------------------------")
