@@ -31,7 +31,6 @@ class Server(object):
         self.cpu = machine_config.cpu
         self.memory = machine_config.memory
         self.disk = machine_config.disk
-        self.cal_inlet_temp = machine_config.cal_inlet_temp
         self.cluster = None
         self.task_instances = []
         self.machine_door = MachineDoor.NULL
@@ -86,9 +85,9 @@ class Server(object):
     @property
     def finished_task_instances(self):
         ls = []
-        # for task_instance in self.task_instances:
-        #     if task_instance.finished:
-        #         ls.append(task_instance)
+        for task_instance in self.task_instances:
+            if task_instance.finished:
+                ls.append(task_instance)
         return ls
 
     def attach(self, cluster):

@@ -47,7 +47,7 @@ class Room(CoolingEquipment):
         # print("FanSpeed", str(fanspeed))
         self.eng.writeCFDInFile(self.inPath)
 
-    def update_self(self):
+    def update_self(self, now):
         while (not self.eng.readCFDOutFile(self.outPath)):
             pass
         self.state_paraslist["inlet_temp"] = float(
@@ -57,6 +57,7 @@ class Room(CoolingEquipment):
         self.power = (self.state_paraslist["inlet_temp"] - self.control_paramslist["set_temp"]) * 26 \
             if (self.state_paraslist["inlet_temp"] - self.control_paramslist["set_temp"]) * 26 > 1e-6 \
             else 0
+
     def update_cluster(self):
         i = 1
         for machine in self.cluster.machines:

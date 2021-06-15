@@ -47,7 +47,6 @@ class MachineConfig(object):
 
 class CoolingEquipmentConfig(object):
     idx = 0
-
     def __init__(self, jsonFilePath):
         with open(jsonFilePath, "r") as f:
             j = json.load(f)
@@ -56,5 +55,6 @@ class CoolingEquipmentConfig(object):
         self.control_paramslist = j["params"]["control"]
         self.control_algorithm = j["params"]["control_algorithm"]
         self.cluster_update_algorithm = j["params"]["cluster_update_algorithm"]
+        self.power_algorithm=j["params"]["power_algorithm"]
         self.id = CoolingEquipmentConfig.idx
         CoolingEquipmentConfig.idx += 1

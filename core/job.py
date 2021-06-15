@@ -237,10 +237,7 @@ class Task(object):
 
 
 class TaskInstance(object):
-    # _EID=0
     def __init__(self, env, task, task_instance_index, task_instance_config):
-        # self.eid=TaskInstance._EID
-        # TaskInstance._EID+=1
         self.env = env
         self.task = task
         self.task_instance_index = task_instance_index
@@ -264,11 +261,7 @@ class TaskInstance(object):
         return str(self.task.id) + '-' + str(self.task_instance_index)
 
     def do_work(self):
-        # self.cluster.waiting_tasks.remove(self)
-        # self.cluster.running_tasks.append(self)
-        # self.machine.run(self)
         yield self.env.timeout(self.duration)
-        # print("one task finished")
         self.finished = True
         self.finished_timestamp = self.env.now
         self.machine.stop_task_instance(self)
@@ -278,7 +271,5 @@ class TaskInstance(object):
         self.started_timestamp = self.env.now
 
         self.machine = machine
-        # outputstr=str(self.eid)+","+str(machine.id)
-        # print(outputstr)
         self.machine.run_task_instance(self)
         self.process = self.env.process(self.do_work())

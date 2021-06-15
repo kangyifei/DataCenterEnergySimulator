@@ -15,7 +15,8 @@
         "now": 26
       }
     },
-    "control_algorithm": "core.CRAC.do_noting",
-    "cluster_update_algorithm": "core.CRAC.do_noting"
+    "control_algorithm": "CRAC.CRAC_control_algorithm",
+    "cluster_update_algorithm": "CRAC.CRAC_cluster_update_algorithm",
+    "power_algorithm": "CRAC.CRAC_power_algorithm"
   }
 }
